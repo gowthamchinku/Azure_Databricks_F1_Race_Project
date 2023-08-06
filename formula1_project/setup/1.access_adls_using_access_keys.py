@@ -29,7 +29,3 @@ display(spark.read.csv("abfss://demo@formula1dlgo.dfs.core.windows.net/circuits.
 
 # MAGIC  %fs
 # MAGIC  ls
-
-# COMMAND ----------
-
-
