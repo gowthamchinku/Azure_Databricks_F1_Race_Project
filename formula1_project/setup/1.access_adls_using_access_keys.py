@@ -9,10 +9,12 @@
 
 # COMMAND ----------
 
+# adding comments
 spark.conf.set("fs.azure.account.key.formula1dlgo.dfs.core.windows.net","o6cxUThFPf3cZuVpgXC6vOvwzkWgebH5QpzKZOmIveXxwlUBCFt9VbiYoVFMgV3s4myrdgBnEWGz+AStuDQ6bQ==")
 
 # COMMAND ----------
 
+#aading commensts
 dbutils.fs.ls("abfss://demo@formula1dlgo.dfs.core.windows.net")
 
 # COMMAND ----------
