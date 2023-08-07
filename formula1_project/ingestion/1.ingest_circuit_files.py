@@ -171,4 +171,19 @@ circuits_final_df.withColumn("Env",lit("Production")).show()
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC
+# MAGIC ### Write the transformed data using dataframe writer API 
+
+# COMMAND ----------
+
+circuits_final_df.write.parquet("/mnt/formula1dlgo/processed")
+
+# COMMAND ----------
+
+# MAGIC %fs
+# MAGIC ls /mnt/formula1dlgo/processed
+
+# COMMAND ----------
+
 
