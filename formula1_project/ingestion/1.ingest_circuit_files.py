@@ -10,7 +10,9 @@
 
 # COMMAND ----------
 
-circuits_df = spark.read.option("header",True).csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
+#circuits_df = spark.read.option("header",True).csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
+circuits_df =spark.read.option("header",True).format("csv").load("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
+circuits_df.show()
 #circuits_df = spark.read.option("header",True).option("inferSchema",True).csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
 
 # COMMAND ----------
@@ -52,14 +54,14 @@ from pyspark.sql.types import StructType,StructField, IntegerType, StringType, D
 # COMMAND ----------
 
 circuits_schema = StructType(fields=[StructField("circuitId", IntegerType(), False),
-                                     StructField("circuitRef", StringType(), False),
-                                     StructField("name", StringType(), False),
-                                     StructField("location", StringType(), False),
-                                     StructField("country", StringType(), False),
-                                     StructField("lat", DoubleType(), False),
-                                     StructField("lng", DoubleType(), False),
-                                     StructField("alt", IntegerType(), False),
-                                     StructField("url", StringType(), False),
+                                     StructField("circuitRef", StringType(), True),
+                                     StructField("name", StringType(), True),
+                                     StructField("location", StringType(), True),
+                                     StructField("country", StringType(), True),
+                                     StructField("lat", DoubleType(), True),
+                                     StructField("lng", DoubleType(), True),
+                                     StructField("alt", IntegerType(), True),
+                                     StructField("url", StringType(), True),
                                      ])
 
 # COMMAND ----------
