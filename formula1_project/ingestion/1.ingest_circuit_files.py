@@ -177,12 +177,26 @@ circuits_final_df.withColumn("Env",lit("Production")).show()
 
 # COMMAND ----------
 
-circuits_final_df.write.parquet("/mnt/formula1dlgo/processed")
+circuits_final_df.write.format("parquet").mode("overwrite").save("/mnt/formula1dlgo/processed/circuits1")
 
 # COMMAND ----------
 
 # MAGIC %fs
-# MAGIC ls /mnt/formula1dlgo/processed
+# MAGIC ls /mnt/formula1dlgo/processed/circuits1
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC
+# MAGIC ### Read again the files that we have ingested into processed layeer
+
+# COMMAND ----------
+
+new_df = spark.read.format("parquet").load("/mnt/formula1dlgo/processed/circuits1/")
+
+# COMMAND ----------
+
+new_df.show()
 
 # COMMAND ----------
 
