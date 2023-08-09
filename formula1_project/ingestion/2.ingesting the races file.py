@@ -48,7 +48,7 @@ final_races_data = racesdf.drop("url").withColumnRenamed("raceId","race_id")\
 
 # COMMAND ----------
 
-final_races_data.write.format("parquet").mode("overwrite").save("/mnt/formula1dlgo/processed/races")
+final_races_data.write.format("parquet").partitionBy('race_year').mode("overwrite").save("/mnt/formula1dlgo/processed/races")
 
 # COMMAND ----------
 
