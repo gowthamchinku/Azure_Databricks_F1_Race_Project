@@ -11,13 +11,13 @@
 
 # Using DDL type to define the schema
 
-constructor_schema = "constructorID INT, constructorRef STRING, name STRING, nationality STRING, url STRING"
+constructor_schema = "constructorId INT, constructorRef STRING, name STRING, nationality STRING, url STRING"
 
 # COMMAND ----------
 
 constructor_df = spark.read \
-    .schema(constructor_schema).format("json")\
-        .load("/mnt/formula1dlgo/raw/constructors.json")
+.schema(constructor_schema).format("json")\
+.load("/mnt/formula1dlgo/raw/constructors.json")
 
 # COMMAND ----------
 
@@ -48,8 +48,8 @@ constructor_dropped_df1 = constructor_df.drop(col("url"))
 # COMMAND ----------
 
 constructor_final_df = constructor_dropped_df1.withColumnRenamed("constructorId","constructor_id") \
-                                            .withColumnRenamed("constructorRef","constructor_ref")\
-                                            .withColumn("ingestion_date",current_timestamp())
+                      .withColumnRenamed("constructorRef","constructor_ref")\
+                      .withColumn("ingestion_date",current_timestamp())
 
 # COMMAND ----------
 

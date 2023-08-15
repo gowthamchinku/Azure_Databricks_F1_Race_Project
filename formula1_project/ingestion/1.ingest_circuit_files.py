@@ -13,7 +13,7 @@
 #circuits_df = spark.read.option("header",True).csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
 circuits_df =spark.read.option("header",True).format("csv").load("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
 circuits_df.show()
-#circuits_df = spark.read.option("header",True).option("inferSchema",True).csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
+circuits_df_infer = spark.read.option("header",True).option("inferSchema",True).csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
 
 # COMMAND ----------
 
@@ -22,6 +22,10 @@ circuits_df.show()
 display(circuits_df)
 
 # display(circuitsdf)
+
+# COMMAND ----------
+
+circuits_df_infer.printSchema()
 
 # COMMAND ----------
 

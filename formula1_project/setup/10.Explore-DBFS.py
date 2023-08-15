@@ -15,18 +15,9 @@ dbutils.fs.help()
 
 # COMMAND ----------
 
-
 display(dbutils.fs.ls("/"))
 display(dbutils.fs.ls("dbfs:/FileStore/"))
 
 # COMMAND ----------
 
 display(spark.read.csv('/FileStore/circuits.csv', header = True))
-
-# COMMAND ----------
-
-
-
-# COMMAND ----------
-
-

@@ -53,7 +53,3 @@ display(dbutils.fs.ls("abfss://demo@formula1dlgo.dfs.core.windows.net") )
  df1.show(50)
 """
 spark
-
-# COMMAND ----------
-
-

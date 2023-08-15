@@ -57,7 +57,3 @@ display(dbutils.fs.mounts())
 # COMMAND ----------
 
 dbutils.fs.unmount("/mnt/formula1dlgo/demo")
-
-# COMMAND ----------
-
-
