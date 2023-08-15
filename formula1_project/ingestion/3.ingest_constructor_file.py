@@ -49,7 +49,7 @@ constructor_dropped_df1 = constructor_df.drop(col("url"))
 
 constructor_final_df = constructor_dropped_df1.withColumnRenamed("constructorId","constructor_id") \
                       .withColumnRenamed("constructorRef","constructor_ref")\
-                      .withColumn("ingestion_date",current_timestamp())
+                      .withColumn("ingestion_date",current_timestamp()) 
 
 # COMMAND ----------
 
