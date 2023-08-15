@@ -18,7 +18,3 @@ dbutils.secrets.list(scope='formula1-Scope')
 # COMMAND ----------
 
 dbutils.secrets.get(scope ='formula1-Scope', key ='Formula1dl-accountkey')
-
-# COMMAND ----------
-
-

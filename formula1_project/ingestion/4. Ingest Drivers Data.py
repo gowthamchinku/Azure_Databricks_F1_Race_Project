@@ -15,4 +15,99 @@ from pyspark.sql.types import StructField, StructType, IntegerType, StringType, 
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC
+# MAGIC -- Here the schema import is different we have nested json with struct type
+
+# COMMAND ----------
+
+# for inner_json_object
+
+name_schema = StructType(fields=[StructField("forename", StringType(), True),
+                                 StructField("surname", StringType(), True)])
+
+# COMMAND ----------
+
+# Here for the name inner json, we can give the type as the json_defined
+
+drivers_schema = StructType(fields = [StructField("driverId",IntegerType(), False),
+                            StructField("driverRef",StringType(), True),
+                            StructField("dob",StringType(), True),
+                            StructField("code",StringType(), True),
+                            StructField("name",name_schema, True),
+                            StructField("nationality",StringType(), True),
+                            StructField("number",StringType(), True),
+                            StructField("url",StringType(), True),
+                            ])
+
+# COMMAND ----------
+
+drivers_df = spark.read.format("json").schema(drivers_schema).load("/mnt/formula1dlgo/raw/drivers.json")
+
+# COMMAND ----------
+
+drivers_df.printSchema()
+
+# COMMAND ----------
+
+display(drivers_df)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## Step 2
+# MAGIC - Rename the columns
+# MAGIC - Ingestion date should be added
+# MAGIC - name added with concatenation of the forename and the surname
+
+# COMMAND ----------
+
+from pyspark.sql.functions import current_timestamp,concat,lit,col
+
+# COMMAND ----------
+
+driver_modified_df = drivers_df.withColumnRenamed("driverId","driver_id")\
+                    .withColumnRenamed("driverRef","driver_ref")\
+                    .withColumn("ingested_date",current_timestamp())\
+                    .withColumn("name",concat(col("name.forename"), lit(" "),col("name.surname")))
+
+# COMMAND ----------
+
+driver_modified_df.show()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ###Step 3:
+# MAGIC
+
+# COMMAND ----------
+
+# Drop the url
+
+drivers_final = driver_modified_df.drop("url")
+
+# COMMAND ----------
+
+drivers_final.show()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Write to parquet
+# MAGIC
+# MAGIC
+
+# COMMAND ----------
+
+drivers_final.write.format("parquet").mode("overwrite").save("/mnt/formula1dlgo/processed/driver")
+
+# COMMAND ----------
+
+# MAGIC %fs
+# MAGIC
+# MAGIC ls /mnt/formula1dlgo/processed/driver
+
+# COMMAND ----------
+
 
