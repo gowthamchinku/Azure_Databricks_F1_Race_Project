@@ -17,7 +17,7 @@ constructor_schema = "constructorId INT, constructorRef STRING, name STRING, nat
 
 constructor_df = spark.read \
 .schema(constructor_schema).format("json")\
-.load("/mnt/formula1dlgo/raw/constructors.json")
+.load(f"{raw_folder_path}/constructors.json")
 
 # COMMAND ----------
 
@@ -61,7 +61,7 @@ display(constructor_final_df)
 
 # COMMAND ----------
 
-constructor_final_df.write.mode("overwrite").format("parquet").save("/mnt/formula1dlgo/processed/constructors")
+constructor_final_df.write.mode("overwrite").format("parquet").save(f"{processed_folder_path}/constructors")
 
 # COMMAND ----------
 

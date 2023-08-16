@@ -24,7 +24,7 @@ pit_schema = StructType(fields=[StructField("raceId", IntegerType(), False),
 
 # COMMAND ----------
 
-pits_stop_file = spark.read.schema(pit_schema).option("multiLine",True).json("/mnt/formula1dlgo/raw/pit_stops.json")
+pits_stop_file = spark.read.schema(pit_schema).option("multiLine",True).json(f"{raw_folder_path}/pit_stops.json")
 
 # COMMAND ----------
 
@@ -49,7 +49,7 @@ display(final_df)
 
 # COMMAND ----------
 
-final_df.write.format("parquet").mode("overwrite").save("/mnt/formula1dlgo/processed/pit_stops")
+final_df.write.format("parquet").mode("overwrite").save(f"{processed_folder_path}/pit_stops")
 
 # COMMAND ----------
 

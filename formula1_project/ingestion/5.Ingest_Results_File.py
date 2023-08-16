@@ -35,7 +35,7 @@ results_schema = StructType(fields=[StructField("resultId",IntegerType(),False),
 # COMMAND ----------
 
 
-results_file1 = spark.read.schema(results_schema).json("/mnt/formula1dlgo/raw/results.json")
+results_file1 = spark.read.schema(results_schema).json(f"{raw_folder_path}/results.json")
 results_file1.printSchema()
 
 # COMMAND ----------
@@ -67,7 +67,7 @@ results_file_final = results_file_rename.drop(col("statusId"))
 
 #Write the status to the output with partitionBy clause in parquet format
 
-results_file_final.write.format("parquet").partitionBy("race_id").save("/mnt/formula1dlgo/processed/results")
+results_file_final.write.format("parquet").partitionBy("race_id").save(f"{processed_folder_path}/results")
 
 # COMMAND ----------
 

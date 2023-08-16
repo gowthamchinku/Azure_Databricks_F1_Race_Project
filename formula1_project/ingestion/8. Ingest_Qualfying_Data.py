@@ -28,7 +28,7 @@ qualyfying_schema = StructType(fields=[StructField("qualifyId", IntegerType(), F
 
 qualifying_df = spark.read.schema(qualyfying_schema)\
 .option("multiLine",True)\
-.json("/mnt/formula1dlgo/raw/qualifying")
+.json(f"{raw_folder_path}/qualifying")
 
 # COMMAND ----------
 
@@ -55,7 +55,7 @@ display(final_df)
 
 # COMMAND ----------
 
-final_df.write.format("parquet").mode("overwrite").save("/mnt/formula1dlgo/processed/qualifying")
+final_df.write.format("parquet").mode("overwrite").save(f"{processed_folder_path}/qualifying")
 
 # COMMAND ----------
 
