@@ -10,10 +10,19 @@
 
 # COMMAND ----------
 
+# MAGIC %run "../includes/Configuration"
+
+# COMMAND ----------
+
+# MAGIC %run "../includes/Common_functions"
+
+# COMMAND ----------
+
 #circuits_df = spark.read.option("header",True).csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
-circuits_df =spark.read.option("header",True).format("csv").load("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
+#circuits_df =spark.read.option("header",True).format("csv").load("/mnt/formula1dlgo/raw/circuits.csv")
+circuits_df =spark.read.option("header",True).format("csv").load(f"{raw_folder_path}/circuits.csv")
 circuits_df.show()
-circuits_df_infer = spark.read.option("header",True).option("inferSchema",True).csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
+circuits_df_infer = spark.read.option("header",True).option("inferSchema",True).csv(f"{raw_folder_path}/circuits.csv")
 
 # COMMAND ----------
 
@@ -73,7 +82,7 @@ circuits_schema = StructType(fields=[StructField("circuitId", IntegerType(), Fal
 circuits_df1 = spark.read \
     .option("header",True) \
     .schema(circuits_schema) \
-    .csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
+    .csv(f"{raw_folder_path}/circuits.csv")
 
 
 # COMMAND ----------
@@ -158,7 +167,8 @@ display(circuits_df_renamed)
 # COMMAND ----------
 
 from pyspark.sql.functions import current_timestamp
-circuits_final_df = circuits_df_renamed.withColumn("ingested_date",current_timestamp())
+#circuits_final_df = circuits_df_renamed.withColumn("ingested_date",current_timestamp())
+circuits_final_df = add_ingestion_date(circuits_df_renamed)
 
 # COMMAND ----------
 
@@ -183,7 +193,7 @@ circuits_final_df.withColumn("Env",lit("Production")).show()
 
 # COMMAND ----------
 
-circuits_final_df.write.format("parquet").mode("overwrite").save("/mnt/formula1dlgo/processed/circuits1")
+circuits_final_df.write.format("parquet").mode("overwrite").save(f"{processed_folder_path}/circuits1")
 
 # COMMAND ----------
 
@@ -198,7 +208,7 @@ circuits_final_df.write.format("parquet").mode("overwrite").save("/mnt/formula1d
 
 # COMMAND ----------
 
-new_df = spark.read.format("parquet").load("/mnt/formula1dlgo/processed/circuits1/")
+new_df = spark.read.format("parquet").load(f"{processed_folder_path}/circuits1/")
 
 # COMMAND ----------
 

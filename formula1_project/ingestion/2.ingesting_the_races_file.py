@@ -25,7 +25,7 @@ race_schema = StructType(fields = [StructField("raceId",IntegerType(), False),
 
 ## Read the file using dataframe reader API
 
-racesdf = spark.read.format("csv").schema(race_schema).option("header",True).load("/mnt/formula1dlgo/raw/races.csv")
+racesdf = spark.read.format("csv").schema(race_schema).option("header",True).load(f"{raw_folder_path}/races.csv")
 racesdf.printSchema()
 
 # COMMAND ----------
@@ -48,7 +48,7 @@ final_races_data = racesdf.drop("url").withColumnRenamed("raceId","race_id")\
 
 # COMMAND ----------
 
-final_races_data.write.format("parquet").partitionBy('race_year').mode("overwrite").save("/mnt/formula1dlgo/processed/races")
+final_races_data.write.format("parquet").partitionBy('race_year').mode("overwrite").save(f"{processed_folder_path }/races")
 
 # COMMAND ----------
 

@@ -42,7 +42,7 @@ drivers_schema = StructType(fields = [StructField("driverId",IntegerType(), Fals
 
 # COMMAND ----------
 
-drivers_df = spark.read.format("json").schema(drivers_schema).load("/mnt/formula1dlgo/raw/drivers.json")
+drivers_df = spark.read.format("json").schema(drivers_schema).load(f"{raw_folder_path}/drivers.json")
 
 # COMMAND ----------
 
@@ -100,7 +100,7 @@ drivers_final.show()
 
 # COMMAND ----------
 
-drivers_final.write.format("parquet").mode("overwrite").save("/mnt/formula1dlgo/processed/driver")
+drivers_final.write.format("parquet").mode("overwrite").save(f"{processed_folder_path}/driver")
 
 # COMMAND ----------
 

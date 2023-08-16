@@ -61,4 +61,16 @@ mount_adls('formula1dlgo','processed')
 
 # COMMAND ----------
 
-mount_adls('formula1dlgo','presentation')
+mount_adls('formula1dlgo','presentation')b
+
+# COMMAND ----------
+
+dbutils.fs.help()
+
+# COMMAND ----------
+
+dbutils.fs.mounts()
+
+# COMMAND ----------
+
+
