@@ -18,6 +18,16 @@
 
 # COMMAND ----------
 
+dbutils.widgets.help()
+
+# COMMAND ----------
+
+dbutils.widgets.text("test_widget","reddy","naveen")
+x=dbutils.widgets.get("test_widget")
+x
+
+# COMMAND ----------
+
 #circuits_df = spark.read.option("header",True).csv("dbfs:/mnt/formula1dlgo/raw/circuits.csv")
 #circuits_df =spark.read.option("header",True).format("csv").load("/mnt/formula1dlgo/raw/circuits.csv")
 circuits_df =spark.read.option("header",True).format("csv").load(f"{raw_folder_path}/circuits.csv")
