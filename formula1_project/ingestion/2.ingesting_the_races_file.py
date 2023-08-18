@@ -4,6 +4,14 @@
 
 # COMMAND ----------
 
+# MAGIC %run "../includes/Configuration"
+
+# COMMAND ----------
+
+# MAGIC %run "../includes/Common_functions"
+
+# COMMAND ----------
+
 # MAGIC %fs
 # MAGIC ls /mnt/formula1dlgo/raw/
 # MAGIC
