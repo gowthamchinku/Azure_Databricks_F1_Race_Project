@@ -51,4 +51,8 @@ dbutils.help()
 
 # COMMAND ----------
 
+dbutils.preview.help()
+
+# COMMAND ----------
+
 
