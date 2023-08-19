@@ -6,8 +6,22 @@
 
 # COMMAND ----------
 
+# MAGIC %run "../includes/Configuration"
+
+# COMMAND ----------
+
+# MAGIC %run "../includes/Common_functions"
+
+# COMMAND ----------
+
+dbutils.widgets.text("Source","","Source")
+source=dbutils.widgets.get("Source")
+
+
+# COMMAND ----------
+
 from pyspark.sql.types import *
-from pyspark.sql.functions import current_timestamp,col
+from pyspark.sql.functions import current_timestamp,col,lit
 
 # COMMAND ----------
 
@@ -51,7 +65,8 @@ results_file_rename = results_file1.withColumnRenamed("resultId","result_id")\
   .withColumnRenamed("fastestLap","fastest_lap")\
   .withColumnRenamed("fastestLapTime","fastest_lap_time")\
   .withColumnRenamed("fastestLapSpeed","fastest_lap_speed")\
-  .withColumn("ingestiontime",current_timestamp())
+  .withColumn("ingestiontime",current_timestamp())\
+  .withColumn("Source",lit(source))
 
 # COMMAND ----------
 
@@ -67,7 +82,7 @@ results_file_final = results_file_rename.drop(col("statusId"))
 
 #Write the status to the output with partitionBy clause in parquet format
 
-results_file_final.write.format("parquet").partitionBy("race_id").save(f"{processed_folder_path}/results")
+results_file_final.write.format("parquet").mode("overwrite").partitionBy("race_id").save(f"{processed_folder_path}/results")
 
 # COMMAND ----------
 
@@ -75,4 +90,4 @@ display(spark.read.parquet("/mnt/formula1dlgo/processed/results"))
 
 # COMMAND ----------
 
-
+dbutils.notebook.exit("Success")

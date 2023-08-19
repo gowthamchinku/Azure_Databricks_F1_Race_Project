@@ -22,9 +22,9 @@ dbutils.widgets.help()
 
 # COMMAND ----------
 
-dbutils.widgets.text("test_widget","reddy","naveen")
-x=dbutils.widgets.get("test_widget")
-x
+dbutils.widgets.text(name="test_widget",defaultValue="testing",label ="source")
+source_for_data=dbutils.widgets.get("test_widget")
+
 
 # COMMAND ----------
 
@@ -157,11 +157,16 @@ circuits_selected_df4.show()
 
 # COMMAND ----------
 
+from pyspark.sql.functions import lit
+
+# COMMAND ----------
+
 circuits_df_renamed = circuits_selected_df4.withColumnRenamed("circuitId","circuit_Id")\
     .withColumnRenamed("circuitRef","circuit_ref") \
     .withColumnRenamed("lat","latitude") \
     .withColumnRenamed("lng","longitude")\
-    .withColumnRenamed("alt","altitude")
+    .withColumnRenamed("alt","altitude")\
+    .withColumn("source",lit(source_for_data))
 
 # COMMAND ----------
 
@@ -223,6 +228,10 @@ new_df = spark.read.format("parquet").load(f"{processed_folder_path}/circuits1/"
 # COMMAND ----------
 
 new_df.show()
+
+# COMMAND ----------
+
+dbutils.notebook.exit("Success")
 
 # COMMAND ----------
 

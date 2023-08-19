@@ -12,6 +12,12 @@
 
 # COMMAND ----------
 
+dbutils.widgets.text("Source","","Source")
+source=dbutils.widgets.get("Source")
+
+
+# COMMAND ----------
+
 # MAGIC %fs
 # MAGIC ls /mnt/formula1dlgo/raw/
 # MAGIC
@@ -44,7 +50,8 @@ final_races_data = racesdf.drop("url").withColumnRenamed("raceId","race_id")\
 .withColumnRenamed("year","race_year") \
 .withColumnRenamed("circuitId","circuit_id") \
 .withColumn("race_timestamp",to_timestamp(concat(col("date"),lit(" "),col("time")),'yyyy-MM-dd HH:mm:ss')) \
-.withColumn("ingestion_date", current_timestamp()).drop("date").drop("time")
+.withColumn("ingestion_date", current_timestamp()).drop("date").drop("time")\
+.withColumn("Source",lit(source))
 
 # COMMAND ----------
 
@@ -69,4 +76,4 @@ display(spark.read.parquet("/mnt/formula1dlgo/processed/races"))
 
 # COMMAND ----------
 
-
+dbutils.notebook.exit("Success")

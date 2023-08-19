@@ -4,12 +4,26 @@
 
 # COMMAND ----------
 
+# MAGIC %run "../includes/Configuration"
+
+# COMMAND ----------
+
+# MAGIC %run "../includes/Common_functions"
+
+# COMMAND ----------
+
+dbutils.widgets.text("Source","","Source")
+source=dbutils.widgets.get("Source")
+
+
+# COMMAND ----------
+
 #Step 1 : Read the Json file using spark dataframe reader API
 
 # COMMAND ----------
 
 from pyspark.sql.types import *
-from pyspark.sql.functions import current_timestamp
+from pyspark.sql.functions import current_timestamp,lit
 
 # COMMAND ----------
 
@@ -42,7 +56,8 @@ final_df = qualifying_df.withColumnRenamed("driverId","driver_id")\
   .withColumnRenamed("raceId","race_id")\
   .withColumnRenamed("constructorId","constructor_id")\
   .withColumnRenamed("qualifyId","qualify_id")\
-  .withColumn("ingested_date",current_timestamp())
+  .withColumn("ingested_date",current_timestamp())\
+  .withColumn("Source",lit(source))
 
 # COMMAND ----------
 
@@ -63,4 +78,4 @@ display(spark.read.format("parquet").load("/mnt/formula1dlgo/processed/qualifyin
 
 # COMMAND ----------
 
-
+dbutils.notebook.exit("Success")

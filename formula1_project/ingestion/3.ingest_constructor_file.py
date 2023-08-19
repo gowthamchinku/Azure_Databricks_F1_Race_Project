@@ -9,6 +9,20 @@
 
 # COMMAND ----------
 
+# MAGIC %run "../includes/Configuration"
+
+# COMMAND ----------
+
+# MAGIC %run "../includes/Common_functions"
+
+# COMMAND ----------
+
+dbutils.widgets.text("Source","","Source")
+source=dbutils.widgets.get("Source")
+
+
+# COMMAND ----------
+
 # Using DDL type to define the schema
 
 constructor_schema = "constructorId INT, constructorRef STRING, name STRING, nationality STRING, url STRING"
@@ -34,7 +48,7 @@ constructor_df.printSchema()
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col,current_timestamp
+from pyspark.sql.functions import col,current_timestamp,lit
 
 # COMMAND ----------
 
@@ -49,7 +63,8 @@ constructor_dropped_df1 = constructor_df.drop(col("url"))
 
 constructor_final_df = constructor_dropped_df1.withColumnRenamed("constructorId","constructor_id") \
                       .withColumnRenamed("constructorRef","constructor_ref")\
-                      .withColumn("ingestion_date",current_timestamp()) 
+                      .withColumn("ingestion_date",current_timestamp())\
+                      .withColumn("Source",lit(source))
 
 # COMMAND ----------
 
@@ -71,4 +86,4 @@ constructor_final_df.write.mode("overwrite").format("parquet").save(f"{processed
 
 # COMMAND ----------
 
-
+dbutils.notebook.exit("Success")
