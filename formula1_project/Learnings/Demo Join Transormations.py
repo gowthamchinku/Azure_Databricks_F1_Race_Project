@@ -51,4 +51,77 @@ circuits_df_left = spark.read.parquet(f"{processed_folder_path}/circuits1")\
 
 # COMMAND ----------
 
+display(circuits_df_left)
+
+# COMMAND ----------
+
+race_circuits_left = circuits_df_left.join(races_df,circuits_df_left.circuit_Id==races_df.circuit_id,"left")
+
+# COMMAND ----------
+
+display(race_circuits_left)
+
+# COMMAND ----------
+
+race_circuits_right= circuits_df_left.join(races_df,circuits_df_left.circuit_Id==races_df.circuit_id,"right")
+
+# COMMAND ----------
+
+display(race_circuits_right)
+
+# COMMAND ----------
+
+race_circuits_full= circuits_df_left.join(races_df,circuits_df_left.circuit_Id==races_df.circuit_id,"full")
+
+# COMMAND ----------
+
+display(race_circuits_full)
+
+# COMMAND ----------
+
+values1 = [(1,), (2,), (3,), (4,), (10,), (12,), (15,), (16,),(1,)]
+schema = "id INT"
+
+# Create a DataFrame
+df1 = spark.createDataFrame(values1, schema)
+
+# COMMAND ----------
+
+df1.show()
+
+# COMMAND ----------
+
+values2 = [(1,), (2,), (3,), (8,), (1,), (1,), (4,), (2,),(12,)]
+schema = "id INT"
+
+# Create a DataFrame
+df2 = spark.createDataFrame(values2, schema)
+
+# COMMAND ----------
+
+df2.show()
+
+# COMMAND ----------
+
+inner_j = df1.join(df2,df1.id == df2.id, "inner")
+inner_j.show()
+
+# COMMAND ----------
+
+left_j = df1.join(df2,df1.id == df2.id, "left")
+left_j.show()
+
+# COMMAND ----------
+
+right_j = df1.join(df2,df1.id == df2.id, "right")
+right_j.show()
+
+# COMMAND ----------
+
+from pyspark.sql.functions import col
+outer_j = df1.join(df2,df1.id == df2.id, "outer")
+outer_j.show()
+
+# COMMAND ----------
+
 
