@@ -5,6 +5,20 @@
 
 # COMMAND ----------
 
+# MAGIC %run "../includes/Configuration"
+
+# COMMAND ----------
+
+# MAGIC %run "../includes/Common_functions"
+
+# COMMAND ----------
+
+dbutils.widgets.text("Source","","Source")
+source=dbutils.widgets.get("Source")
+
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC -- Step 1: Read the JSON File using spark dataframe reader API
 # MAGIC
@@ -69,7 +83,8 @@ from pyspark.sql.functions import current_timestamp,concat,lit,col
 driver_modified_df = drivers_df.withColumnRenamed("driverId","driver_id")\
                     .withColumnRenamed("driverRef","driver_ref")\
                     .withColumn("ingested_date",current_timestamp())\
-                    .withColumn("name",concat(col("name.forename"), lit(" "),col("name.surname")))
+                    .withColumn("name",concat(col("name.forename"), lit(" "),col("name.surname")))\
+                    .withColumn("Source",lit(source))
 
 # COMMAND ----------
 
@@ -110,4 +125,4 @@ drivers_final.write.format("parquet").mode("overwrite").save(f"{processed_folder
 
 # COMMAND ----------
 
-
+dbutils.notebook.exit("Success")
