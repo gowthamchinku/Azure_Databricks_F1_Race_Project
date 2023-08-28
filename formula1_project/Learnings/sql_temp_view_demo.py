@@ -48,4 +48,44 @@ display(race_19_p_df)
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC ### Global Temp Views
+# MAGIC 1. Create global temporary views on dataframes
+# MAGIC 2. Access the view from SQL code
+# MAGIC 3. Access the view from python cell
+# MAGIC 4. Access the view from another notebook
+
+# COMMAND ----------
+
+races_results_df.createOrReplaceGlobalTempView("global_view")
+
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC
+# MAGIC select * from global_temp.global_view;
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC
+# MAGIC SHOW TABLES IN GLOBAL_TEMP;
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC
+# MAGIC SELECT * FROM global_temp.global_view;
+
+# COMMAND ----------
+
+df=spark.sql("SELECT * FROM global_temp.global_view")
+
+# COMMAND ----------
+
+df.show()
+
+# COMMAND ----------
+
 
